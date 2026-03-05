@@ -44,10 +44,6 @@ const Header = ({ userProfile }) => {
                 onClick={handleProfileClick}
                 title="Click to view profile"
               />
-              <div className="user-menu">
-                <button onClick={handleProfileClick} className="btn-menu">View Profile</button>
-                <button onClick={handleLogout} className="btn-menu">Logout</button>
-              </div>
             </div>
           )}
         </div>
