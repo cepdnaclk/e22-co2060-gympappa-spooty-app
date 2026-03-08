@@ -1,0 +1,40 @@
+.dashboard {
+  padding: 20px;
+}
+
+.sports-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.sport-item {
+  border: 1px solid #ccc;
+  padding: 10px;
+  cursor: pointer;
+  background-color: #f9f9f9;
+}
+
+.sport-item:hover {
+  background-color: #e9e9e9;
+}
+
+.sport-equipment-list {
+  margin-top: 20px;
+}
+
+.equipment-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.equipment-item {
+  border: 1px solid #ccc;
+  padding: 10px;
+  background-color: #f9f9f9;
+}
+
+.equipment-item button {
+  margin: 5px;
+}
