@@ -74,3 +74,45 @@ export const deleteEquipment = async (req, res) => {
     res.status(500).json({ message: "Error deleting equipment" });
   }
 };
+
+export const addStock = async (req, res) => {
+  const { id } = req.params;
+  const { quantity } = req.body;
+
+  try {
+    const result = await pool.query(
+      `UPDATE equipment
+       SET total_quantity = total_quantity + $1,
+           available_quantity = available_quantity + $1
+       WHERE equipment_id = $2
+       RETURNING *`,
+      [quantity, id]
+    );
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error adding stock" });
+  }
+};
+
+export const removeStock = async (req, res) => {
+  const { id } = req.params;
+  const { quantity } = req.body;
+
+  try {
+    const result = await pool.query(
+      `UPDATE equipment
+       SET total_quantity = total_quantity - $1,
+           available_quantity = available_quantity - $1
+       WHERE equipment_id = $2
+       RETURNING *`,
+      [quantity, id]
+    );
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error removing stock" });
+  }
+};
