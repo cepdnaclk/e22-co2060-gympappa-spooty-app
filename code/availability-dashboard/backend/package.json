@@ -1,16 +1,15 @@
 {
-  "name": "gympappa-spooty-app-backend",
+  "name": "backend",
   "version": "1.0.0",
   "description": "Backend for GympAPPa Spooty App - Equipment Availability Dashboard",
-  "main": "src/server.ts",
+  "type": "module",
+  "main": "src/server.js",
   "scripts": {
-    "start": "ts-node src/server.ts",
-    "dev": "ts-node-dev src/server.ts",
-    "build": "tsc",
+    "start": "node src/server.js",
+    "dev": "node src/server.js",
     "test": "jest"
   },
   "dependencies": {
-    "@types/sequelize": "^4.28.20",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
@@ -18,22 +17,9 @@
     "sequelize": "^6.37.7"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.19",
-    "@types/dotenv": "^6.1.1",
-    "@types/express": "^4.17.13",
-    "@types/jest": "^27.0.2",
-    "@types/node": "^25.6.0",
-    "jest": "^27.0.6",
-    "ts-node": "^10.9.2",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^5.9.3"
+    "jest": "^27.0.6"
   },
-  "keywords": [
-    "gym",
-    "equipment",
-    "dashboard",
-    "availability"
-  ],
+  "keywords": ["gym", "equipment", "dashboard", "availability"],
   "author": "Your Name",
   "license": "MIT"
 }
