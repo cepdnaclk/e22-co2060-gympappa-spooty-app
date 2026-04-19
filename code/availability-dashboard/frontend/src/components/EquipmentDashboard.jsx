@@ -1,7 +1,8 @@
 // src/components/EquipmentDashboard.jsx
 import React, { useEffect, useState } from 'react';
 
-const STUDENT_ID = 'E/22/018';
+const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
+const STUDENT_ID = storedUser?.user_id || 'E/22/018';
 
 const pad = (n) => String(n).padStart(2, '0');
 

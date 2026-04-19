@@ -1,7 +1,8 @@
 // src/pages/Dashboard.tsx
 import React, { useEffect, useState } from 'react';
 
-const STUDENT_ID = 'E/22/018';
+const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
+const STUDENT_ID = storedUser?.user_id || 'E/22/018';
 
 const statusStyle = (status) => {
   switch (status) {
