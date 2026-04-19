@@ -1,75 +1,64 @@
-# GympAPPa Spooty App - Frontend README
-
-# GympAPPa Spooty App - Frontend
+# GymPappa Spooty App - Frontend
 
 ## Overview
+The GymPappa Spooty App frontend provides an Equipment Availability Dashboard for students to request and track sports equipment.  
+Built with React.js.
 
-The GympAPPa Spooty App is a web application designed to provide an Equipment Availability Dashboard for gym equipment. This frontend is built using React.js and communicates with a Node.js backend to display real-time availability of gym equipment.
-
-## Getting Started
-
-### Prerequisites
-
+## Prerequisites
 - Node.js (version 14 or higher)
-- npm (Node Package Manager)
+- npm
 
-### Installation
+## Installation
 
-1. Clone the repository:
-
-   ```
-   git clone <repository-url>
-   ```
-
-2. Navigate to the frontend directory:
-
-   ```
-   cd gympappa-spooty-app/frontend
-   ```
-
-3. Install the dependencies:
-
-   ```
-   npm install
-   ```
-
-### Running the Application
-
-To start the development server, run:
-
+1. Navigate to the frontend directory:
+```bash
+cd code/availability-dashboard/frontend
 ```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+## Running the Application
+```bash
 npm start
 ```
 
-The application will be available at `http://localhost:3000`.
+App runs on:
+http://localhost:3000
 
-### Folder Structure
+⚠️ **Note:** Make sure the backend is running on http://localhost:5000 first.
 
+## Features
+- View equipment availability grouped by sport
+- Request equipment with pickup time
+- View request history
+- Cancel pending requests
+- Role-based navigation menu
+- Login protection
+
+## Folder Structure
 ```
-frontend
-├── src
-│   ├── App.tsx
-│   ├── index.tsx
-│   ├── components
-│   │   ├── EquipmentDashboard.tsx
-│   │   ├── EquipmentCard.tsx
-│   │   └── AvailabilityStatus.tsx
-│   ├── pages
-│   │   └── Dashboard.tsx
-│   ├── hooks
-│   │   └── useEquipment.ts
-│   ├── types
-│   │   └── index.ts
-│   └── styles
-│       └── App.css
-├── package.json
-└── tsconfig.json
+frontend/
+├── public/
+│   └── index.html
+├── src/
+│   ├── App.jsx
+│   ├── index.jsx
+│   ├── components/
+│   │   ├── EquipmentDashboard.jsx
+│   │   ├── Header.jsx
+│   │   ├── Footer.jsx
+│   │   ├── Navigation.jsx
+│   │   └── logo.PNG
+│   ├── pages/
+│   │   └── Dashboard.jsx
+│   └── styles/
+│       ├── App.css
+│       ├── footer.css
+│       ├── header.css
+│       ├── navigation.css
+│       └── template.css
+└── package.json
 ```
-
-### Contributing
-
-Contributions are welcome! Please open an issue or submit a pull request for any enhancements or bug fixes.
-
-### License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
