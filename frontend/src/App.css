@@ -1,0 +1,31 @@
+/* Basic styles for the app */
+.App {
+  text-align: center;
+}
+
+header {
+  background-color: #282c34;
+  padding: 20px;
+  color: white;
+}
+
+nav button {
+  margin: 0 10px;
+  padding: 10px;
+  background-color: #61dafb;
+  border: none;
+  cursor: pointer;
+}
+
+main {
+  padding: 20px;
+}
+
+footer {
+  background-color: #282c34;
+  color: white;
+  padding: 10px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
