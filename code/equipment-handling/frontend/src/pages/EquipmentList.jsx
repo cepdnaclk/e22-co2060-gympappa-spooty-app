@@ -19,14 +19,7 @@ const EquipmentList = () => {
   fetchEquipment();
 }, [search]);
 
-  const fetchEquipment = async () => {
-    try {
-      const response = await api.get("/equipment");
-      setEquipment(response.data);
-    } catch (error) {
-      console.error("Error fetching equipment:", error);
-    }
-  };
+  
 
   return (
     <div className="template-container">
