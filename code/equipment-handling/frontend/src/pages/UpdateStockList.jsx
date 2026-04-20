@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import api from "../utils/api";
+import { useNavigate } from "react-router-dom";
 import "../styles/template.css";
 
-const EquipmentList = () => {
+const UpdateStockList = () => {
   const [equipment, setEquipment] = useState([]);
   const [search, setSearch] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
   const fetchEquipment = async () => {
@@ -24,8 +26,8 @@ const EquipmentList = () => {
   return (
     <div className="template-container">
       <div className="template-header">
-        <h1>Equipment List</h1>
-        <p>All available equipment in the system</p>
+        <h1>Update Stock</h1>
+        <p>Select equipment to update stock</p>
       </div>
 
       <input
@@ -52,6 +54,7 @@ const EquipmentList = () => {
                 <th>Category</th>
                 <th>Total</th>
                 <th>Available</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -62,6 +65,11 @@ const EquipmentList = () => {
                   <td>{item.category}</td>
                   <td>{item.total_quantity}</td>
                   <td>{item.available_quantity}</td>
+                  <td>
+                    <button onClick={() => navigate(`/update-stock/${item.equipment_id}`)}>
+                      Update Stock
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -72,4 +80,4 @@ const EquipmentList = () => {
   );
 };
 
-export default EquipmentList;
+export default UpdateStockList;

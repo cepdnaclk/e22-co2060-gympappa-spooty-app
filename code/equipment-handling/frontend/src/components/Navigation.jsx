@@ -13,7 +13,7 @@ const Navigation = ({ role }) => {
       { label: 'Dashboard', path: '/dashboard', roles: ['student', 'games-captain', 'admin', 'counter-staff', 'psu', 'faculty-cordinator', 'coach', 'private-coach', 'academic-staff'] },
       { label: 'Request Equipment', path: '/request-equipment', roles: ['student', 'games-captain', 'admin', 'psu', 'faculty-cordinator', 'coach', 'private-coach', 'academic-staff'] },
       { label: 'Equipment List', path: '/equipment-list', roles: ['admin', 'counter-staff'] },
-      { label: 'Add/Update Equipment', path: '/manage-equipment', roles: ['admin', 'counter-staff'] },
+      { label: 'Add/Update Equipment', path: '/manage-stock', roles: ['admin', 'counter-staff'] },
       { label: 'Issue Equipment', path: '/issue-equipment', roles: ['counter-staff'] },
       { label: 'Return Equipment', path: '/return-equipment', roles: ['counter-staff'] },
       { label: 'My Issued Items', path: '/my-issued-items', roles: ['counter-staff'] },

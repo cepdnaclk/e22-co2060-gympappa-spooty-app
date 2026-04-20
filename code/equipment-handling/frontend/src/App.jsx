@@ -4,7 +4,9 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Navigation from './components/Navigation';
-import EquipmentList from "./pages/EquipmentList";
+import UpdateStockList from "./pages/UpdateStockList";
+import UpdateStock from "./pages/UpdateStock";
+import ManageStock from "./pages/ManageStock";
 //import Login from './pages/Login';
 //import Register from './pages/Register';
 //import Profile from './pages/Profile';
@@ -113,28 +115,35 @@ function App() {
             
             
             <Route 
-              path="/equipment-list" 
+              path="/update-stock-list" 
               element={
                 <ProtectedRoute>
-                  <EquipmentList />
+                  <UpdateStockList />
                 </ProtectedRoute>
               } 
             />
             <Route 
-              path="/update-stock" 
+              path="/update-stock/:id" 
               element={
                 <ProtectedRoute>
-                  <div style={{ minHeight: 'calc(100vh - 160px)', padding: '40px', textAlign: 'center' }}>
-                    <h1>Update Stock</h1>
-                  </div>
+                  <UpdateStock />
+                </ProtectedRoute>
+              } 
+            />
+
+            <Route 
+              path="/manage-stock" 
+              element={
+                <ProtectedRoute>
+                  <ManageStock />
                 </ProtectedRoute>
               } 
             />
 
 
             {/* Default redirect */}
-            <Route path="/" element={<Navigate to="/equipment-list" replace />} />
-            <Route path="*" element={<Navigate to="/equipment-list" replace />} />
+            <Route path="/" element={<Navigate to="/manage-stock" replace />} />
+            <Route path="*" element={<Navigate to="/manage-stock" replace />} />
           </Routes>
         </main>
 
