@@ -7,6 +7,7 @@ import Navigation from './components/Navigation';
 import UpdateStockList from "./pages/UpdateStockList";
 import UpdateStock from "./pages/UpdateStock";
 import ManageStock from "./pages/ManageStock";
+import AddEquipment from "./pages/AddEquipment";
 //import Login from './pages/Login';
 //import Register from './pages/Register';
 //import Profile from './pages/Profile';
@@ -136,6 +137,15 @@ function App() {
               element={
                 <ProtectedRoute>
                   <ManageStock />
+                </ProtectedRoute>
+              } 
+            />
+
+            <Route 
+              path="/add-equipment" 
+              element={
+                <ProtectedRoute>
+                  <AddEquipment />
                 </ProtectedRoute>
               } 
             />
