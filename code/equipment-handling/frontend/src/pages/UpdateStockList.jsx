@@ -7,6 +7,25 @@ const UpdateStockList = () => {
   const [equipment, setEquipment] = useState([]);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
+  
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this equipment?");
+
+    if (!confirmDelete) return;
+
+    try {
+      await api.delete(`/equipment/${id}`);
+
+      alert("Equipment deleted successfully");
+
+      // refresh list
+      setEquipment((prev) => prev.filter((item) => item.equipment_id !== id));
+
+    } catch (error) {
+      console.error(error);
+      alert("Error deleting equipment");
+    }
+  };
 
   useEffect(() => {
   const fetchEquipment = async () => {
@@ -68,6 +87,9 @@ const UpdateStockList = () => {
                   <td>
                     <button onClick={() => navigate(`/update-stock/${item.equipment_id}`)}>
                       Update Stock
+                    </button>
+                    <button onClick={() => handleDelete(item.equipment_id)} style={{ backgroundColor: "red", color: "white" }}>
+                      Delete
                     </button>
                   </td>
                 </tr>

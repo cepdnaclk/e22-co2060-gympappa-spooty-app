@@ -17,10 +17,6 @@ const ManageStock = () => {
           Add New Equipment
         </button>
 
-        <button onClick={() => navigate("/remove-equipment")}>
-          Remove Equipment
-        </button>
-
         <button onClick={() => navigate("/update-stock-list")}>
           Update Stock
         </button>
