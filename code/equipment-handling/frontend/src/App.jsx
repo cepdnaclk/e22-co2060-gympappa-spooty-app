@@ -21,7 +21,21 @@ const Dashboard = () => (
   </div>
 );
 
-const ProtectedRoute = ({ children }) => children;
+const ProtectedRoute = ({ children, allowedRoles }) => {
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  // Not logged in
+  if (!user) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  // Role not allowed
+  if (allowedRoles && !allowedRoles.includes(user.role)) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  return children;
+};
 
 const PublicRoute = ({ children }) => {
   const token = localStorage.getItem('token');
@@ -118,7 +132,7 @@ function App() {
             <Route 
               path="/update-stock-list" 
               element={
-                <ProtectedRoute>
+                <ProtectedRoute allowedRoles={["admin", "counter-staff"]}>
                   <UpdateStockList />
                 </ProtectedRoute>
               } 
@@ -126,7 +140,7 @@ function App() {
             <Route 
               path="/update-stock/:id" 
               element={
-                <ProtectedRoute>
+                <ProtectedRoute allowedRoles={["admin", "counter-staff"]}>
                   <UpdateStock />
                 </ProtectedRoute>
               } 
@@ -135,7 +149,7 @@ function App() {
             <Route 
               path="/manage-stock" 
               element={
-                <ProtectedRoute>
+                <ProtectedRoute allowedRoles={["admin", "counter-staff"]}>
                   <ManageStock />
                 </ProtectedRoute>
               } 
@@ -144,7 +158,7 @@ function App() {
             <Route 
               path="/add-equipment" 
               element={
-                <ProtectedRoute>
+                <ProtectedRoute allowedRoles={["admin", "counter-staff"]}>
                   <AddEquipment />
                 </ProtectedRoute>
               } 
