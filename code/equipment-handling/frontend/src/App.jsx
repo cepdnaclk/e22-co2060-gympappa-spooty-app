@@ -95,8 +95,8 @@ function App() {
   return (
     <BrowserRouter>
       <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-        <Header userProfile={{ role: "admin" }} />
-        <Navigation role="admin" />
+        <Header userProfile={userProfile || { role: "admin" }} />
+        <Navigation role={userProfile?.role || "admin"} />
         
         <main style={{ flex: 1 }}>
           <Routes>
