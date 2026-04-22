@@ -109,7 +109,7 @@ const Dashboard = () => {
 
       {/* Welcome Section */}
       <div className="template-header">
-        <h1>🏟️ Welcome to GymPappa Spooty</h1>
+        <h1>🏟️ Welcome to GympAPPa Spooty</h1>
         <p>Manage and request sports equipment easily. Check availability and track your requests below.</p>
       </div>
 

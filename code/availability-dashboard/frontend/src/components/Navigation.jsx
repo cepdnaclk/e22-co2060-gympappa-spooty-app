@@ -45,7 +45,7 @@ const Navigation = ({ role }) => {
             <li key={item.path}>
               <button
                 onClick={() => handleNavClick(item.path)}
-                className="nav-link"
+                className={`nav-link ${location.pathname === item.path ? 'active' : ''}`}
               >
                 {item.label}
               </button>

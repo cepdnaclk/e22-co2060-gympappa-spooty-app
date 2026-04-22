@@ -223,7 +223,7 @@ const EquipmentDashboard = () => {
 
       {/* Page Header */}
       <div className="template-header">
-        <h1>Equipment Availability Dashboard</h1>
+        <h1>Equipment Availability Dashboard⚽</h1>
         <p>Select a sport to view and request equipment</p>
       </div>
 

@@ -28,28 +28,23 @@ const Header = ({ userProfile }) => {
   return (
     <header className="header">
       <div className="header-container">
+        <img src={logo} alt="GympAPPa Logo" className="header-logo" />
         <div className="logo">
-          <img src={logo} alt="GymPappa Spooty logo" className="header-logo" />
-          <div>
-            <h1>GymPappa Spooty</h1>
-            <p className="tagline">PERA Sports and Gymnasium Management System</p>
-          </div>
+          <h1>GympAPPa</h1>
+          <p className="tagline">PERA Sports and Gymnasium Management System</p>
         </div>
+        <div className="logo-spacer"></div>
         <div className="header-right">
           <div className="user-section">
-            <button className="btn-logout" onClick={handleLogout}>
-              Logout
-            </button>
-            {userProfile && (
-              <img
-                src={profileImage}
-                alt="Profile"
-                className="profile-pic"
-                onClick={handleProfileClick}
-                title="Click to view profile"
-                onError={handleImgError}
-              />
-            )}
+            <button onClick={handleLogout} className="btn-logout">Logout</button>
+            <img
+              src={profileImage}
+              alt="Profile"
+              className="profile-pic"
+              onClick={handleProfileClick}
+              title="Click to view profile"
+              onError={handleImgError}
+            />
           </div>
         </div>
       </div>
