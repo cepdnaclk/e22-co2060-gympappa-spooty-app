@@ -2,8 +2,9 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from './logo.PNG';
 import '../styles/header.css';
+import { DEFAULT_PROFILE_PICTURE } from '../utils/helpers';
 
-const DEFAULT_PROFILE_IMAGE = 'https://ui-avatars.com/api/?name=User&background=0D8A4E&color=fff';
+const DEFAULT_PROFILE_IMAGE = DEFAULT_PROFILE_PICTURE;
 
 const Header = ({ userProfile }) => {
   const navigate = useNavigate();
