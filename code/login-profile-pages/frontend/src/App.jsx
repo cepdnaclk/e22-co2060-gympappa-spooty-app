@@ -21,6 +21,19 @@ const ProtectedRoute = ({ children }) => {
   return token ? children : <Navigate to="/login" replace />;
 };
 
+const getStoredUser = () => {
+  const user = localStorage.getItem('user');
+  if (!user) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(user);
+  } catch (error) {
+    return null;
+  }
+};
+
 const PublicRoute = ({ children }) => {
   const token = localStorage.getItem('token');
   return token ? <Navigate to="/dashboard" replace /> : children;
@@ -28,7 +41,10 @@ const PublicRoute = ({ children }) => {
 
 const AuthRoute = ({ children }) => {
   const token = localStorage.getItem('token');
-  return token ? <Navigate to="/dashboard" replace /> : children;
+  const storedUser = getStoredUser();
+  const destination = storedUser?.needsPasswordSetup ? '/profile' : '/dashboard';
+
+  return token ? <Navigate to={destination} replace /> : children;
 };
 
 function App() {
@@ -157,8 +173,8 @@ function App() {
             />
 
             {/* Default redirect */}
-            <Route path="/" element={localStorage.getItem('token') ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />} />
-            <Route path="*" element={localStorage.getItem('token') ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />} />
+            <Route path="/" element={localStorage.getItem('token') ? <Navigate to={(getStoredUser()?.needsPasswordSetup ? '/profile' : '/dashboard')} replace /> : <Navigate to="/login" replace />} />
+            <Route path="*" element={localStorage.getItem('token') ? <Navigate to={(getStoredUser()?.needsPasswordSetup ? '/profile' : '/dashboard')} replace /> : <Navigate to="/login" replace />} />
           </Routes>
         </main>
 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { signInWithPopup } from 'firebase/auth';
+import { signInWithPopup, signOut } from 'firebase/auth';
 import { auth, googleProvider } from '../config/firebase';
 import { authAPI } from '../utils/api';
 import { validateEmail } from '../utils/helpers';
@@ -45,7 +45,7 @@ const Login = () => {
       window.dispatchEvent(new Event('authStateChanged'));
       
       // Redirect based on role
-      navigate('/dashboard');
+      navigate(response.data.user?.needsPasswordSetup ? '/profile' : '/dashboard');
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed. Please try again.');
       setLoading(false);
@@ -54,32 +54,32 @@ const Login = () => {
 
   const handleGoogleLogin = async () => {
     try {
+      setLoading(true);
       setError('');
+
       const result = await signInWithPopup(auth, googleProvider);
-      
-      // Get the email from Firebase
       const email = result.user.email;
-      
-      // Check if email has correct domain
+
       if (!validateEmail(email)) {
         setError('Please use your university email (.pdn.ac.lk)');
-        await auth.signOut();
+        await signOut(auth);
+        setLoading(false);
         return;
       }
 
-      // Verify with backend
       const firebaseToken = await result.user.getIdToken();
       const response = await authAPI.verifyFirebase({ firebaseToken });
 
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
-      
-      // Notify App component to update auth state
+
       window.dispatchEvent(new Event('authStateChanged'));
-      
-      navigate('/dashboard');
+
+      navigate(response.data.user?.needsPasswordSetup ? '/profile' : '/dashboard');
     } catch (err) {
       setError(err.response?.data?.message || 'Google login failed. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -131,18 +131,18 @@ const Login = () => {
 
         <div className="auth-divider">OR</div>
 
-        <button 
-          type="button" 
+        <button
+          type="button"
           className="btn-google"
           onClick={handleGoogleLogin}
           disabled={loading}
         >
-          <span>🔑</span> Sign in with Google
+          <span>🔑</span> {loading ? 'Connecting...' : 'Sign in with Google'}
         </button>
 
         <div className="auth-footer">
           <p>Don't have an account? <a href="/register">Register here</a></p>
-          <p><a href="/forgot-password">Forgot password?</a></p>
+          <p>Use Google sign-in or your user ID with the password set in profile.</p>
         </div>
       </div>
 

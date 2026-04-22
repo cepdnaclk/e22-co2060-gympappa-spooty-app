@@ -4,7 +4,8 @@ import {
   loginUser, 
   getUserProfile, 
   updateUserProfile,
-  verifyFirebaseToken 
+  verifyFirebaseToken,
+  setUserPassword
 } from '../controllers/authController.js';
 import { authenticateToken } from '../middleware/auth.js';
 
@@ -18,5 +19,6 @@ router.post('/verify-firebase', verifyFirebaseToken);
 // Protected routes
 router.get('/profile', authenticateToken, getUserProfile);
 router.put('/profile', authenticateToken, updateUserProfile);
+router.put('/profile/password', authenticateToken, setUserPassword);
 
 export default router;

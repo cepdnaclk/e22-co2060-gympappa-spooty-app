@@ -7,7 +7,10 @@ CREATE TABLE IF NOT EXISTS "user" (
   role VARCHAR(50) NOT NULL DEFAULT 'student' CHECK (role IN ('student', 'games-captain', 'admin', 'counter-staff', 'psu', 'faculty-cordinator', 'coach', 'private-coach', 'academic-staff')),
   university_email VARCHAR(255) UNIQUE NOT NULL,
   name VARCHAR(255) NOT NULL,
-  password VARCHAR(255) NOT NULL,
+  password VARCHAR(255),
+  password_set BOOLEAN NOT NULL DEFAULT FALSE,
+  auth_provider VARCHAR(20) NOT NULL DEFAULT 'password' CHECK (auth_provider IN ('password', 'firebase', 'hybrid')),
+  firebase_uid VARCHAR(255) UNIQUE,
   profile_picture TEXT,
   tel VARCHAR(20),
   personal_email VARCHAR(255),
@@ -15,6 +18,20 @@ CREATE TABLE IF NOT EXISTS "user" (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+ALTER TABLE "user" ALTER COLUMN password DROP NOT NULL;
+ALTER TABLE "user" ALTER COLUMN password DROP DEFAULT;
+
+ALTER TABLE "user" ADD COLUMN IF NOT EXISTS password_set BOOLEAN NOT NULL DEFAULT FALSE;
+ALTER TABLE "user" ADD COLUMN IF NOT EXISTS auth_provider VARCHAR(20) NOT NULL DEFAULT 'password';
+ALTER TABLE "user" ADD COLUMN IF NOT EXISTS firebase_uid VARCHAR(255) UNIQUE;
+
+ALTER TABLE "user" DROP CONSTRAINT IF EXISTS user_auth_provider_check;
+ALTER TABLE "user" ADD CONSTRAINT user_auth_provider_check CHECK (auth_provider IN ('password', 'firebase', 'hybrid'));
+
+UPDATE "user"
+SET password_set = CASE WHEN password IS NOT NULL THEN TRUE ELSE FALSE END,
+    auth_provider = CASE WHEN password IS NOT NULL THEN 'password' ELSE 'firebase' END;
 
 -- Create index for better query performance
 CREATE INDEX IF NOT EXISTS idx_user_id ON "user"(user_id);

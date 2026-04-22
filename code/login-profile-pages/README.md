@@ -4,7 +4,7 @@ Welcome to GympAPPa! This is a comprehensive sports equipment management system 
 
 ## 🎯 Project Overview
 
-GympAPPa manages sports equipment, facilities, and user roles across the university. The system supports role-based access, real-time equipment tracking, and seamless integration of traditional authentication and Firebase Google Sign-In.
+GympAPPa manages sports equipment, facilities, and user roles across the university. The system supports role-based access, real-time equipment tracking, Firebase Google Sign-In for registration, and traditional user ID/password login after the password is set from the profile page.
 
 ### Current Session Focus
 **Session 1: Authentication & Profile Management**
@@ -160,20 +160,19 @@ http://localhost:3000
 
 **`pages/Login.jsx`**
 - Traditional login with user ID and password
-- Google OAuth2 integration with Firebase
-- Email validation for university domain
+- Redirects to profile if the account still needs password setup
 
 **`pages/Register.jsx`**
-- User registration with university email
-- Automatic user ID extraction
-- Password strength validation
-- Faculty information display
+- Firebase Google-only registration
+- University email validation after Google sign-in
+- Redirects to profile so the user can set their app password
 
 **`pages/Profile.jsx`**
 - User profile display and editing
 - Profile picture upload
 - Contact information management
 - Faculty and batch information display
+- Password setup/change for later user ID/password login
 - Role request functionality (template)
 
 **`pages/Template.jsx`**
@@ -253,6 +252,8 @@ The system only accepts university emails with the `.pdn.ac.lk` domain:
 }
 ```
 
+This endpoint is now disabled for manual signup. Use Google sign-in on the registration page instead.
+
 **POST** `/api/auth/login`
 ```json
 {
@@ -275,7 +276,16 @@ The system only accepts university emails with the `.pdn.ac.lk` domain:
 }
 ```
 
-**POST** `/api/auth/verify-firebase` (Protected)
+**PUT** `/api/auth/profile/password` (Protected)
+```json
+{
+  "currentPassword": "optional_current_password",
+  "password": "newSecurePassword123",
+  "confirmPassword": "newSecurePassword123"
+}
+```
+
+**POST** `/api/auth/verify-firebase`
 ```json
 {
   "firebaseToken": "firebase_token_here"
@@ -291,7 +301,10 @@ user (
   role VARCHAR(50),
   university_email VARCHAR(255) UNIQUE,
   name VARCHAR(255),
-  password VARCHAR(255) HASHED,
+  password VARCHAR(255) NULL,
+  password_set BOOLEAN,
+  auth_provider VARCHAR(20),
+  firebase_uid VARCHAR(255) UNIQUE,
   profile_picture TEXT,
   tel VARCHAR(20),
   personal_email VARCHAR(255),
@@ -321,7 +334,8 @@ role_request (
 3. **Case Insensitivity**: User IDs are converted to lowercase for consistency
 4. **Email Validation**: Strict validation for university email domain
 5. **Environment Variables**: Sensitive data stored in `.env` file (never commit)
-6. **CORS**: Configured to only accept requests from your frontend
+6. **Firebase Onboarding**: Google sign-in is used only for account creation and first-time identity proofing
+7. **CORS**: Configured to only accept requests from your frontend
 
 ## 🖥️ Frontend Development Guidelines
 

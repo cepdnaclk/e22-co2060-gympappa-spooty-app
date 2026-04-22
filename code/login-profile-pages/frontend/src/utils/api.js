@@ -40,6 +40,7 @@ export const authAPI = {
   verifyFirebase: (data) => api.post('/auth/verify-firebase', data),
   getProfile: () => api.get('/auth/profile'),
   updateProfile: (data) => api.put('/auth/profile', data),
+  setPassword: (data) => api.put('/auth/profile/password', data),
 };
 
 export default api;

@@ -153,6 +153,17 @@
   cursor: not-allowed;
 }
 
+.auth-note {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: 6px;
+  background: rgba(68, 161, 148, 0.08);
+  border: 1px solid rgba(68, 161, 148, 0.2);
+  color: var(--color-text);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
 .auth-footer {
   text-align: center;
   margin-top: 20px;
@@ -255,5 +266,9 @@
 
   .info-card h4 {
     font-size: 1rem;
+  }
+
+  .auth-note {
+    font-size: 0.9rem;
   }
 }
