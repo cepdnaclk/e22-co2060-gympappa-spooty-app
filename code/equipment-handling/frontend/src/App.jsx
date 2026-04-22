@@ -22,14 +22,15 @@ const Dashboard = () => (
 );
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
+  const token = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("user"));
 
   // Not logged in
-  if (!user) {
-    return <Navigate to="/dashboard" replace />;
+  if (!token || !user) {
+    return <Navigate to="/login" replace />;
   }
 
-  // Role not allowed
+  //Role not allowed
   if (allowedRoles && !allowedRoles.includes(user.role)) {
     return <Navigate to="/dashboard" replace />;
   }
@@ -109,8 +110,9 @@ function App() {
   return (
     <BrowserRouter>
       <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-        <Header userProfile={userProfile || { role: "admin" }} />
-        <Navigation role={userProfile?.role || "admin"} />
+        {localStorage.getItem('token') && userProfile && (<Header userProfile={userProfile} />)}
+        {localStorage.getItem('token') && userProfile && (<Navigation role={userProfile.role} />)}
+        {localStorage.getItem('token') && userProfile && <Footer />}
         
         <main style={{ flex: 1 }}>
           <Routes>
@@ -166,12 +168,13 @@ function App() {
 
 
             {/* Default redirect */}
-            <Route path="/" element={<Navigate to="/manage-stock" replace />} />
-            <Route path="*" element={<Navigate to="/manage-stock" replace />} />
+            <Route path="/" element={localStorage.getItem('token') ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />} />
+            <Route path="*" element={localStorage.getItem('token') ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />} />
+
           </Routes>
         </main>
 
-        {localStorage.getItem('token') && userProfile && <Footer />}
+        
       </div>
     </BrowserRouter>
   );
