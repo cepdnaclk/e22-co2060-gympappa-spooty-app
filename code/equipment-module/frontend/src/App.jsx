@@ -1,171 +1,121 @@
-import { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import Navigation from './components/Navigation';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Profile from './pages/Profile';
-import './styles/global.css';
+// ============================================================
+// App.jsx — Main Application
+// Matches GympAPPa design:
+//   - White header with logo + logout button
+//   - Teal navigation bar below header
+//   - Beige/cream background
+// ============================================================
 
-// Placeholder Dashboard Component
-const Dashboard = () => (
-  <div style={{ minHeight: 'calc(100vh - 160px)', padding: '40px', textAlign: 'center' }}>
-    <h1>Welcome to Dashboard</h1>
-    <p>This is a template page. Your teammates will add more pages here.</p>
-  </div>
-);
+import React from 'react'
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 
-const ProtectedRoute = ({ children }) => {
-  const token = localStorage.getItem('token');
-  return token ? children : <Navigate to="/login" replace />;
-};
+import IssueEquipment  from './pages/IssueEquipment'
+import ReturnEquipment from './pages/ReturnEquipment'
+import MyIssuedItems   from './pages/MyIssuedItems'
 
-const PublicRoute = ({ children }) => {
-  const token = localStorage.getItem('token');
-  return token ? <Navigate to="/dashboard" replace /> : children;
-};
+import './styles/global.css'
+import './styles/header.css'
+import './styles/navigation.css'
+import './styles/equipment.css'
 
-const AuthRoute = ({ children }) => {
-  const token = localStorage.getItem('token');
-  return token ? <Navigate to="/dashboard" replace /> : children;
-};
+import logo from './components/logo.png'
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userProfile, setUserProfile] = useState(null);
-
-  useEffect(() => {
-    const checkAuth = () => {
-      const token = localStorage.getItem('token');
-      const user = localStorage.getItem('user');
-      
-      if (token && user) {
-        try {
-          // Basic token validation - check if it's a valid JWT format
-          const payload = JSON.parse(atob(token.split('.')[1]));
-          const currentTime = Date.now() / 1000;
-          
-          if (payload.exp && payload.exp > currentTime) {
-            setIsAuthenticated(true);
-            setUserProfile(JSON.parse(user));
-          } else {
-            // Token expired
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
-            setIsAuthenticated(false);
-            setUserProfile(null);
-          }
-        } catch (error) {
-          // Invalid token format
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
-          setIsAuthenticated(false);
-          setUserProfile(null);
-        }
-      } else {
-        setIsAuthenticated(false);
-        setUserProfile(null);
-      }
-    };
-
-    checkAuth();
-
-    // Listen for storage changes from other tabs
-    window.addEventListener('storage', checkAuth);
-
-    // Also listen for custom event that we'll dispatch when registering/logging in
-    window.addEventListener('authStateChanged', checkAuth);
-
-    return () => {
-      window.removeEventListener('storage', checkAuth);
-      window.removeEventListener('authStateChanged', checkAuth);
-    };
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    setIsAuthenticated(false);
-    setUserProfile(null);
-  };
+  const navigate = useNavigate()
+  const location = useLocation()
+  const path     = location.pathname
 
   return (
-    <BrowserRouter>
-      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-        {localStorage.getItem('token') && userProfile && <Header userProfile={userProfile} />}
-        {localStorage.getItem('token') && userProfile && <Navigation role={userProfile?.role} />}
-        
-        <main style={{ flex: 1 }}>
-          <Routes>
-            {/* Auth Routes - Only accessible when NOT logged in */}
-            <Route 
-              path="/login" 
-              element={
-                <AuthRoute>
-                  <Login />
-                </AuthRoute>
-              } 
-            />
-            <Route 
-              path="/register" 
-              element={
-                <AuthRoute>
-                  <Register />
-                </AuthRoute>
-              } 
-            />
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
 
-            {/* Protected Routes - Only accessible when logged in */}
-            <Route 
-              path="/dashboard" 
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/profile" 
-              element={
-                <ProtectedRoute>
-                  <Profile />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/request-equipment" 
-              element={
-                <ProtectedRoute>
-                  <div style={{ minHeight: 'calc(100vh - 160px)', padding: '40px', textAlign: 'center' }}>
-                    <h1>Request Equipment</h1>
-                    <p>Equipment request functionality will be implemented here.</p>
-                  </div>
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/equipment-list" 
-              element={
-                <ProtectedRoute>
-                  <div style={{ minHeight: 'calc(100vh - 160px)', padding: '40px', textAlign: 'center' }}>
-                    <h1>Equipment List</h1>
-                    <p>Equipment list functionality will be implemented here.</p>
-                  </div>
-                </ProtectedRoute>
-              } 
-            />
+      {/* ══════════════════════════════════════════
+          HEADER
+      ══════════════════════════════════════════ */}
+      <header className="header">
+        <div className="header-container">
 
-            {/* Default redirect */}
-            <Route path="/" element={localStorage.getItem('token') ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />} />
-            <Route path="*" element={localStorage.getItem('token') ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />} />
-          </Routes>
-        </main>
+          <div className="logo" style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <img src={logo} alt="GympAPPa Logo" className="header-logo" />
+            <div>
+              <h1>GympAPPa</h1>
+              <p className="tagline">PERA Sports &amp; Gymnasium Management System</p>
+            </div>
+          </div>
 
-        {localStorage.getItem('token') && userProfile && <Footer />}
-      </div>
-    </BrowserRouter>
-  );
+          <div className="logo-spacer" />
+
+          <div className="header-right">
+            <button className="btn-logout">Logout</button>
+            <div className="user-section">
+              <div style={{
+                width: '46px',
+                height: '46px',
+                borderRadius: '50%',
+                backgroundColor: 'var(--color-green)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'white',
+                fontSize: '20px',
+                cursor: 'pointer',
+                border: '3px solid var(--color-green)',
+                transition: 'var(--transition)'
+              }}>
+                &#128100;
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* ══════════════════════════════════════════
+          NAVIGATION
+      ══════════════════════════════════════════ */}
+      <nav className="navigation">
+        <div className="nav-container">
+          <ul className="nav-menu">
+            <li>
+              <button
+                className={`nav-link ${path === '/' || path === '/issue' ? 'active' : ''}`}
+                onClick={() => navigate('/issue')}
+              >
+                Issue Equipment
+              </button>
+            </li>
+            <li>
+              <button
+                className={`nav-link ${path === '/return' ? 'active' : ''}`}
+                onClick={() => navigate('/return')}
+              >
+                Return Equipment
+              </button>
+            </li>
+            <li>
+              <button
+                className={`nav-link ${path === '/history' ? 'active' : ''}`}
+                onClick={() => navigate('/history')}
+              >
+                Issue History
+              </button>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      {/* ══════════════════════════════════════════
+          PAGE CONTENT — no container, full width
+      ══════════════════════════════════════════ */}
+      <main style={{ flex: 1, padding: '32px 40px', backgroundColor: 'var(--color-light)' }}>
+        <Routes>
+          <Route path="/"        element={<IssueEquipment />} />
+          <Route path="/issue"   element={<IssueEquipment />} />
+          <Route path="/return"  element={<ReturnEquipment />} />
+          <Route path="/history" element={<MyIssuedItems />} />
+        </Routes>
+      </main>
+
+    </div>
+  )
 }
 
-export default App;
+export default App
